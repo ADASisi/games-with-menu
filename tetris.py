@@ -328,8 +328,7 @@ def main(win):
     win.blit(label, (top_left_x + play_width/2 - (label.get_width() / 2), top_left_y + play_height/2 - label.get_height()/2))
 
     pygame.display.update()
-    pygame.time.delay(2000)
-            
+    pygame.time.delay(5000)
 
 win = pygame.display.set_mode((s_width, s_height))
 pygame.display.set_caption("Tetris")
