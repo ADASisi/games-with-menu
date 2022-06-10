@@ -2,13 +2,13 @@ import pygame
 import random
 
 pygame.font.init()
-# GLOBALS VARS
+
 s_width = 800
 s_height = 700
 play_width = 300 
-# meaning 300 // 10 = 30 width per block
+
 play_height = 600 
-# meaning 600 // 20 = 20 height per block
+
 block_size = 30
 top_left_x = (s_width - play_width) // 2
 
@@ -147,7 +147,7 @@ def create_grid(locked_position = {}):
 def convert_shape_format(current_shape):
     positions = []
 
-    shape_format = current_shape.shape[current_shape.rotation  % len(current_shape.shape)] #?
+    shape_format = current_shape.shape[current_shape.rotation  % len(current_shape.shape)] 
 
     for i, line in enumerate (shape_format):
         row = list(line)
@@ -220,7 +220,7 @@ def draw_next_shape(shape, surface):
     sx = top_left_x + play_width + 50
     sy = top_left_y + play_height/2 - 100
 
-    shape_format = shape.shape[shape.rotation  % len(shape.shape)] #?
+    shape_format = shape.shape[shape.rotation  % len(shape.shape)] 
 
     for i, line in enumerate(shape_format):
         row = list(line)
