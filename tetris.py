@@ -140,8 +140,7 @@ def create_grid(locked_position = {}):
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             if (j, i) in locked_position:
-                    c = locked_position[(j, i)]
-                    grid[i][j] = c
+                    grid[i][j] = locked_position[(j, i)]
     
     return grid
 
@@ -166,7 +165,7 @@ def get_shape():
 
 def valid_space(shape, grid):
     accepted_position = [[(j, i) for j in range (10) if grid[i][j] == (0, 0, 0)] for i in range(20)]
-    accepted_position = [j for sub in accepted_position for j in sub]
+    accepted_position = [j for sub in accepted_position for j in sub] #making one demetional list
 
     formatted = convert_shape_format(shape)
 
@@ -253,19 +252,19 @@ def draw_window(surface, grid):
 
 def main(win):
     run = True
-    locked_position = {}
+    locked_positions = {}
 
-    grid = create_grid(locked_position)
+    grid = create_grid(locked_positions)
 
     change_piece = False
     current_piece = get_shape()
     next_piece = get_shape()
-    clock = pygame.time.Clock()
+    clock = pygame.time.Clock() #gives milliseconds
     fall_time = 0
     fall_speed = 0.27
-    while run:
 
-        grid = create_grid(locked_position)
+    while run:
+        grid = create_grid(locked_positions)
         fall_time += clock.get_rawtime() #gives milliseconds
         clock.tick()
 
@@ -310,19 +309,20 @@ def main(win):
         if change_piece:
             for pos in shape_pos:
                 p = (pos[0], pos[1])
-                locked_position[p] = current_piece.color
+                locked_positions[p] = current_piece.color
             next_piece = get_shape()
             current_piece = next_piece
             change_piece = False
-            delete_rows(grid, locked_position)
+            delete_rows(grid, locked_positions)
 
         draw_window(win, grid)
         draw_next_shape(next_piece, win)
         pygame.display.update()
 
-        if check_lost(locked_position):
+        if check_lost(locked_positions):
             run = False
-
+            pygame.display.quit()
+            
 def main_menu(win):
     main(win)
 
@@ -330,9 +330,7 @@ def main_menu(win):
     pygame.font.init()
     font = pygame.font.SysFont('Helvetica', 20)
     label = font.render("Game over", 1, (255, 255, 255))
-    win.blit(label, ((s_width - 50)/2, s_height/2), 70)'''
-
-    pygame.display.quit()
+    win.blit(label, (200, 200))'''
 
 win = pygame.display.set_mode((s_width, s_height))
 pygame.display.set_caption("Tetris")
