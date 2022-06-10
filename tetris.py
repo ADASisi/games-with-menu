@@ -1,9 +1,6 @@
 import pygame
 import random
-"""0 square grid
-shapes: S, Z, I, O, J, L, T
-represented in order by 0 - 6
-""" 
+
 pygame.font.init()
 # GLOBALS VARS
 s_width = 800
@@ -181,7 +178,11 @@ def valid_space(shape, grid):
     return True
 
 def check_lost(positions):
-    pass
+    for pos in positions:
+        x, y = pos
+        if y < 1:
+            return True
+    return False
 
 def draw_grid(surface, grid):
     sx = top_left_x
@@ -190,6 +191,27 @@ def draw_grid(surface, grid):
         pygame.draw.line(surface, (128, 128, 128), (sx, sy + i * block_size), (sx + play_width, sy + i * block_size))
         for j in range(len(grid[i])):
             pygame.draw.line(surface, (128, 128, 128), (sx + j * block_size, sy), (sx + j * block_size, sy + play_height))
+
+def delete_rows(grid, locked):
+    inc = 0
+
+    for i in range(len(grid) - 1, -1, -1):
+        row = grid[i]
+        if (0, 0, 0) not in row:
+            inc += 1 #deleted rows
+            ind = i #current index
+            for j in range(len(row)):
+                try:
+                    del locked[(j, i)]
+                except:
+                    continue
+
+    if inc > 0:
+        for key in sorted(list(locked), key = lambda x: x[1])[::-1]:
+            x, y = key
+            if y < ind:
+                newKey = (x, y + inc)
+                locked[newKey] = locked.pop(key)
 
 def draw_next_shape(shape, surface):
     font = pygame.font.SysFont('comiceans', 40)
@@ -292,6 +314,7 @@ def main(win):
             next_piece = get_shape()
             current_piece = next_piece
             change_piece = False
+            delete_rows(grid, locked_position)
 
         draw_window(win, grid)
         draw_next_shape(next_piece, win)
@@ -299,11 +322,17 @@ def main(win):
 
         if check_lost(locked_position):
             run = False
-    
-    pygame.display.quit()
 
 def main_menu(win):
     main(win)
+
+    '''win.fill((0,0,0))
+    pygame.font.init()
+    font = pygame.font.SysFont('Helvetica', 20)
+    label = font.render("Game over", 1, (255, 255, 255))
+    win.blit(label, ((s_width - 50)/2, s_height/2), 70)'''
+
+    pygame.display.quit()
 
 win = pygame.display.set_mode((s_width, s_height))
 pygame.display.set_caption("Tetris")
