@@ -321,19 +321,21 @@ def main(win):
 
         if check_lost(locked_positions):
             run = False
-            pygame.display.quit()
-            
-def main_menu(win):
-    main(win)
 
-    '''win.fill((0,0,0))
-    pygame.font.init()
-    font = pygame.font.SysFont('Helvetica', 20)
-    label = font.render("Game over", 1, (255, 255, 255))
-    win.blit(label, (200, 200))'''
+    win.fill((0,0,0))
+    font = pygame.font.SysFont('comicsans', 60, bold=True)
+    label = font.render("Game over", 1, (255,255,255))
+    win.blit(label, (top_left_x + play_width/2 - (label.get_width() / 2), top_left_y + play_height/2 - label.get_height()/2))
+
+    pygame.display.update()
+    pygame.time.delay(2000)
+            
 
 win = pygame.display.set_mode((s_width, s_height))
 pygame.display.set_caption("Tetris")
 
-main_menu(win)
+main(win)
+
+pygame.display.quit()
+pygame.quit()
 
