@@ -17,19 +17,18 @@ BORDER = pygame.Rect(WIDTH//2, 0, 10, HEIGHT)
 HEALTH_FONT = pygame.font.SysFont('comicsans', 40)
 WINNER_FONT = pygame.font.SysFont('comicsans', 100)
 
-
 FPS = 60
 VELOSITY = 3
 BULLET_VEL = 10
 MAX_BULLETS = 5
-SPACESHIP_WIDTH, SPACE_HEIGHT = 55, 40
+SPACESHIP_WIDTH, SPACE_HEIGHT = 60, 50
 
 BLUE_HIT = pygame.USEREVENT + 1
 RED_HIT = pygame.USEREVENT + 2
 
 BLUE_SPACESHIP_IMAGE = pygame.image.load(os.path.join('spaceship_blue.png'))
 BLUE_SPACESHIP = pygame.transform.rotate(pygame.transform.scale(
-BLUE_SPACESHIP_IMAGE, (50, 40)), 270)
+    BLUE_SPACESHIP_IMAGE, (SPACESHIP_WIDTH,SPACE_HEIGHT)), 270)
 
 RED_SPACESHIP_IMAGE = pygame.image.load(
     os.path.join('spaceship_red.png'))
@@ -45,13 +44,11 @@ def draw_window(red, blue, red_bullets, blue_bullets, red_health, blue_health):
     
     red_health_text = HEALTH_FONT.render("Health: " + str(red_health), 1, WHITE)
     blue_health_text = HEALTH_FONT.render("Health: " + str(blue_health), 1, WHITE)
-    WIN.blit(red_health_text, (WIDTH - red_health_text.get_width() - 10, 10))
+    WIN.blit(red_health_text, (WIDTH - red_health_text.get_width() - 10, 10))#рисува едно изображение върху друго
     WIN.blit(blue_health_text, (10, 10))
 
     WIN.blit(BLUE_SPACESHIP, (blue.x, blue.y))
     WIN.blit(RED_SPACESHIP, (red.x, red.y))
-    
-    
     
     for bullet in red_bullets:
         pygame.draw.rect(WIN, RED, bullet)
@@ -160,10 +157,7 @@ def main():
            
         draw_window(red, blue, red_bullets, blue_bullets, red_health, blue_health)    
         
-main()
-
-    
-    
+main()    
     
 if __name__ == "__main__":
     main()
