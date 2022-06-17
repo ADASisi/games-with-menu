@@ -155,9 +155,6 @@ def convert_shape_format(current_shape):
             if colume == '0':
                 positions.append((current_shape.x + j, current_shape.y + i))
 
-    for i, pos in enumerate(positions):
-        positions[i] = (pos[0] - 2, pos[1] - 4)
-
     return positions
 
 def get_shape():
@@ -192,24 +189,24 @@ def draw_grid(surface, grid):
             pygame.draw.line(surface, (128, 128, 128), (sx + j * block_size, sy), (sx + j * block_size, sy + play_height))
 
 def delete_rows(grid, locked):
-    inc = 0
+    full_rows = 0
 
     for i in range(len(grid) - 1, -1, -1):
         row = grid[i]
         if (0, 0, 0) not in row:
-            inc += 1 #deleted rows
-            ind = i #current index
+            full_rows += 1 #deleted rows
+            ind = i
             for j in range(len(row)):
                 try:
                     del locked[(j, i)]
                 except:
                     continue
 
-    if inc > 0:
+    if full_rows > 0:
         for key in sorted(list(locked), key = lambda x: x[1])[::-1]:
             x, y = key
             if y < ind:
-                newKey = (x, y + inc)
+                newKey = (x, y + full_rows)
                 locked[newKey] = locked.pop(key)
 
 def draw_next_shape(shape, surface):
